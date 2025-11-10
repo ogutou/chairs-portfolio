@@ -11,7 +11,7 @@ import { convertStandardToBasic } from "../utils/convertToBasic";
 
 export default function Model(props) {
 	const group = useRef();
-	const { nodes, materials } = useGLTF("/models/chairs001_2511072051_bake07.glb");
+	const { nodes, materials } = useGLTF("/models/chairs002.glb");
 
 	useEffect(() => {
 		if (!group.current) return;
@@ -117,4 +117,4 @@ export default function Model(props) {
 	);
 }
 
-useGLTF.preload("/chairs001_2511072051_bake07.glb");
+useGLTF.preload("/chairs002.glb");
