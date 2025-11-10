@@ -34,7 +34,7 @@ function GLB({ url, position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, ...pr
 }
 
 function Backgrounds({
-	url = "/models/chairs/backgrounds.glb",
+	url = "/assets/models/chairs/backgrounds.glb",
 	commonScale = [-42.63, -26.574, -42.63],
 }) {
 	const group = useRef();
@@ -62,69 +62,69 @@ function Backgrounds({
 
 const CHAIRS = [
 	{
-		url: "/models/chairs-portfolio_01-v1.glb",
+		url: "/assets/models/chairs-portfolio_01-v1.glb",
 		position: [0, 0, 12],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_02-v1.glb",
+		url: "/assets/models/chairs-portfolio_02-v1.glb",
 		position: [6, 0, 10.392],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_03-v1.glb",
+		url: "/assets/models/chairs-portfolio_03-v1.glb",
 		position: [10.392, 0, 6],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_04-v1.glb",
+		url: "/assets/models/chairs-portfolio_04-v1.glb",
 		position: [12, 0, 0],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_05-v1.glb",
+		url: "/assets/models/chairs-portfolio_05-v1.glb",
 		position: [10.392, 0, -6],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_06-v1.glb",
+		url: "/assets/models/chairs-portfolio_06-v1.glb",
 		position: [6, 0, -10.392],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_07-v1.glb",
+		url: "/assets/models/chairs-portfolio_07-v1.glb",
 		position: [0, 0, -12],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_08-v1.glb",
+		url: "/assets/models/chairs-portfolio_08-v1.glb",
 		position: [-6, 0, -10.392],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_09-v1.glb",
+		url: "/assets/models/chairs-portfolio_09-v1.glb",
 		position: [-10.392, 0, -6],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_10-v1.glb",
+		url: "/assets/models/chairs-portfolio_10-v1.glb",
 		position: [-12, 0, 0],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_11-v1.glb",
+		url: "/assets/models/chairs-portfolio_11-v1.glb",
 		position: [-10.392, 0, 6],
 		rotation: [0, 0, 0],
 	},
 	{
-		url: "/models/chairs-portfolio_12-v1.glb",
+		url: "/assets/models/chairs-portfolio_12-v1.glb",
 		position: [-6, 0, 10.392],
 		rotation: [0, 0, 0],
 	},
 ];
 
 CHAIRS.forEach((p) => useGLTF.preload(p.url));
-useGLTF.preload("/models/chairs-portfolio_background-v1.glb");
+useGLTF.preload("/assets/models/chairs-portfolio_background-v1.glb");
 
 export default function Chairs(props) {
 	return (
@@ -133,7 +133,7 @@ export default function Chairs(props) {
 				{CHAIRS.map((part, i) => (
 					<GLB key={i} {...part} />
 				))}
-				<Backgrounds url="/models/chairs-portfolio_background-v1.glb" />
+				<Backgrounds url="/assets/models/chairs-portfolio_background-v1.glb" />
 			</Suspense>
 		</group>
 	);
