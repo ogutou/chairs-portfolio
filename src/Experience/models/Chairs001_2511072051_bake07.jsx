@@ -5,116 +5,135 @@
  * @format
  */
 
-import React, { useEffect, useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import React, { useEffect, useRef, Suspense } from "react";
+import { useGLTF, Center } from "@react-three/drei";
 import { convertStandardToBasic } from "../utils/convertToBasic";
 
-export default function Model(props) {
+function GLB({ url, position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, ...props }) {
 	const group = useRef();
-	const { nodes, materials } = useGLTF("/models/chairs002.glb");
+	const { scene } = useGLTF(url);
 
 	useEffect(() => {
 		if (!group.current) return;
-		// ここで一括変換（透明ありは alphaTest 適用、map は sRGB に）
+		scene.position.set(0, 0, 0);
+		scene.rotation.set(0, 0, 0);
+		scene.scale.set(1, 1, 1);
+		scene.updateMatrixWorld(true);
+
 		convertStandardToBasic(group.current, { alphaTest: 0.55, setSRGBOnMap: true });
 	}, []);
 
 	return (
-		<group {...props} dispose={null}>
-			<mesh
-				geometry={nodes["12"].geometry}
-				material={materials["マテリアル.016"]}
-				position={[-6, 0, 10.392]}
-				rotation={[0, -Math.PI / 6, 0]}
-			/>
-			<mesh
-				geometry={nodes["11"].geometry}
-				material={materials["マテリアル.015"]}
-				position={[-10.392, 0, 6]}
-				rotation={[Math.PI / 2, 0, Math.PI / 3]}
-				scale={0.01}
-			/>
-			<mesh
-				geometry={nodes["10"].geometry}
-				material={materials["マテリアル.014"]}
-				position={[-12, 0, 0]}
-				rotation={[0, -1.571, 0]}
-			/>
-			<mesh
-				geometry={nodes["09"].geometry}
-				material={materials["マテリアル.012"]}
-				position={[-10.392, 0, -6]}
-				rotation={[Math.PI, -Math.PI / 3, Math.PI]}
-			/>
-			<mesh
-				geometry={nodes["08"].geometry}
-				material={materials["マテリアル.010"]}
-				position={[-6, 0, -10.392]}
-				rotation={[Math.PI, -Math.PI / 6, Math.PI]}
-			/>
-			<mesh
-				geometry={nodes["07"].geometry}
-				material={materials["マテリアル.009"]}
-				position={[0, 0, -12]}
-				rotation={[Math.PI, 0, Math.PI]}
-			/>
-			<mesh
-				geometry={nodes["06"].geometry}
-				material={materials["マテリアル.008"]}
-				position={[6, 0, -10.392]}
-				rotation={[-Math.PI, Math.PI / 6, -Math.PI]}
-			/>
-			<mesh
-				geometry={nodes["05"].geometry}
-				material={materials["マテリアル.007"]}
-				position={[10.392, 0, -6]}
-				rotation={[-Math.PI, Math.PI / 3, -Math.PI]}
-			/>
-			<mesh
-				geometry={nodes["04"].geometry}
-				material={materials["マテリアル.006"]}
-				position={[12, 0, 0]}
-				rotation={[0, 1.571, 0]}
-			/>
-			<mesh
-				geometry={nodes["03"].geometry}
-				material={materials["マテリアル.004"]}
-				position={[10.392, 0, 6]}
-				rotation={[0, Math.PI / 3, 0]}
-			/>
-			<mesh
-				geometry={nodes["02"].geometry}
-				material={materials["マテリアル.005"]}
-				position={[6, 0, 10.392]}
-				rotation={[0, Math.PI / 6, 0]}
-			/>
-			<mesh
-				geometry={nodes["01"].geometry}
-				material={materials["マテリアル.017"]}
-				position={[0, 0, 12]}
-			/>
-			<mesh
-				geometry={nodes.background01.geometry}
-				material={materials["マテリアル.001"]}
-				scale={[-42.63, -26.574, -42.63]}
-			/>
-			<mesh
-				geometry={nodes.background02.geometry}
-				material={materials.マテリアル}
-				scale={[-42.63, -26.574, -42.63]}
-			/>
-			<mesh
-				geometry={nodes.chairshadow.geometry}
-				material={materials["マテリアル.003"]}
-				scale={[-42.63, -26.574, -42.63]}
-			/>
-			<mesh
-				geometry={nodes.FL01.geometry}
-				material={materials["マテリアル.013"]}
-				scale={[-42.63, -26.574, -42.63]}
-			/>
+		<group ref={group} position={position} rotation={rotation} scale={scale} {...props}>
+			<Center disableY>
+				<primitive object={scene} />
+			</Center>
 		</group>
 	);
 }
 
-useGLTF.preload("/chairs002.glb");
+function Backgrounds({
+	url = "/models/chairs/backgrounds.glb",
+	commonScale = [-42.63, -26.574, -42.63],
+}) {
+	const group = useRef();
+	const { nodes } = useGLTF(url);
+
+	useEffect(() => {
+		if (!group.current) return;
+		convertStandardToBasic(group.current, { alphaTest: 0.55, setSRGBOnMap: true });
+	}, []);
+
+	const b1 = nodes.background01;
+	const b2 = nodes.background02;
+	const ch = nodes.chairshadow;
+	const fl = nodes.FL01;
+
+	return (
+		<group ref={group}>
+			{b1 && <primitive object={b1} scale={commonScale} />}
+			{b2 && <primitive object={b2} scale={commonScale} />}
+			{ch && <primitive object={ch} scale={commonScale} />}
+			{fl && <primitive object={fl} scale={commonScale} />}
+		</group>
+	);
+}
+
+const CHAIRS = [
+	{
+		url: "/models/chairs-portfolio_01-v1.glb",
+		position: [0, 0, 12],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_02-v1.glb",
+		position: [6, 0, 10.392],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_03-v1.glb",
+		position: [10.392, 0, 6],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_04-v1.glb",
+		position: [12, 0, 0],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_05-v1.glb",
+		position: [10.392, 0, -6],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_06-v1.glb",
+		position: [6, 0, -10.392],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_07-v1.glb",
+		position: [0, 0, -12],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_08-v1.glb",
+		position: [-6, 0, -10.392],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_09-v1.glb",
+		position: [-10.392, 0, -6],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_10-v1.glb",
+		position: [-12, 0, 0],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_11-v1.glb",
+		position: [-10.392, 0, 6],
+		rotation: [0, 0, 0],
+	},
+	{
+		url: "/models/chairs-portfolio_12-v1.glb",
+		position: [-6, 0, 10.392],
+		rotation: [0, 0, 0],
+	},
+];
+
+CHAIRS.forEach((p) => useGLTF.preload(p.url));
+useGLTF.preload("/models/chairs-portfolio_background-v1.glb");
+
+export default function Chairs(props) {
+	return (
+		<group {...props}>
+			<Suspense fallback={null}>
+				{CHAIRS.map((part, i) => (
+					<GLB key={i} {...part} />
+				))}
+				<Backgrounds url="/models/chairs-portfolio_background-v1.glb" />
+			</Suspense>
+		</group>
+	);
+}
