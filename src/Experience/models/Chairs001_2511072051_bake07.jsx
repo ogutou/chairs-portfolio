@@ -8,6 +8,7 @@
 import React, { useEffect, useRef, Suspense } from "react";
 import { useGLTF, Center } from "@react-three/drei";
 import { convertStandardToBasic } from "../utils/convertToBasic";
+import CanvasLoader from "../utils/CanvasLoader";
 
 function GLB({ url, position = [0, 0, 0], rotation = [0, 0, 0], scale = 1, ...props }) {
 	const group = useRef();
@@ -63,17 +64,17 @@ function Backgrounds({
 const CHAIRS = [
 	{
 		url: "/assets/models/chairs-portfolio_01-v1.glb",
-		position: [0, 0, 12],
+		position: [0, 0, 11.95],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_02-v1.glb",
-		position: [6, 0, 10.392],
+		position: [6.02, 0, 10.41],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_03-v1.glb",
-		position: [10.392, 0, 6],
+		position: [10.342, 0, 5.984],
 		rotation: [0, 0, 0],
 	},
 	{
@@ -83,42 +84,42 @@ const CHAIRS = [
 	},
 	{
 		url: "/assets/models/chairs-portfolio_05-v1.glb",
-		position: [10.392, 0, -6],
+		position: [10.378, 0, -5.99],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_06-v1.glb",
-		position: [6, 0, -10.392],
+		position: [6, -0.007, -10.392],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_07-v1.glb",
-		position: [0, 0, -12],
+		position: [0, 0, -12.045],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_08-v1.glb",
-		position: [-6, 0, -10.392],
+		position: [-5.975, -0.005, -10.35],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_09-v1.glb",
-		position: [-10.392, 0, -6],
+		position: [-10.326, 0, -5.95],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_10-v1.glb",
-		position: [-12, 0, 0],
+		position: [-11.92, 0, 0],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_11-v1.glb",
-		position: [-10.392, 0, 6],
+		position: [-10.365, 0, 5.994],
 		rotation: [0, 0, 0],
 	},
 	{
 		url: "/assets/models/chairs-portfolio_12-v1.glb",
-		position: [-6, 0, 10.392],
+		position: [-6.08, 0, 10.48],
 		rotation: [0, 0, 0],
 	},
 ];
@@ -129,7 +130,7 @@ useGLTF.preload("/assets/models/chairs-portfolio_background-v1.glb");
 export default function Chairs(props) {
 	return (
 		<group {...props}>
-			<Suspense fallback={null}>
+			<Suspense fallback={<CanvasLoader />}>
 				{CHAIRS.map((part, i) => (
 					<GLB key={i} {...part} />
 				))}
